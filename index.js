@@ -154,10 +154,10 @@ async function appendToSheet(data) {
     console.log('📤 시트에 전송할 데이터:', data);
 
     const auth = new google.auth.GoogleAuth({
-      keyFile: 'credentials.json',
+      credentials: JSON.parse(process.env.GOOGLE_CREDENTIALS),
       scopes: ['https://www.googleapis.com/auth/spreadsheets'],
     });
-
+ 
     // 기존 client와 변수명이 겹쳐 충돌 → 다른 이름 사용
     const sheetsAuth = await auth.getClient();
     const sheets = google.sheets({ version: 'v4', auth: sheetsAuth });
