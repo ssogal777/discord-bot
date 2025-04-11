@@ -1,0 +1,8 @@
+# node_modules 폴더는 용량 커서 제외
+node_modules/
+
+# 환경 변수 파일은 민감한 정보가 있음
+.env
+
+# 구글 인증 파일도 민감한 정보 포함
+credentials.json
