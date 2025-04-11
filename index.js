@@ -589,7 +589,9 @@ if (interaction.isChatInputCommand() && interaction.commandName === 'transfer') 
         { name: q[8], value: state.cp3rd || 'N/A' },
         { name: q[9], value: state.group || 'No' },
         { name: q[10], value: state.group === 'yes' ? (state.groupLeader || 'N/A') : 'N/A' },
-        { name: q[11], value: agree || 'N/A' }
+        { name: q[11], value: agree || 'N/A' },
+        { name: '🕒 제출 시간', value: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }) },
+        { name: '🆔 디스코드 닉네임', value: interaction.user.globalName || interaction.user.username }
       ]
     };
 
@@ -612,13 +614,14 @@ if (interaction.isChatInputCommand() && interaction.commandName === 'transfer') 
       state.cp3 || '',
       state.group,
       state.group === 'yes' ? (state.groupLeader || '') : '',
-      agree
+      agree,
+      new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }), // 시간 추가
+      interaction.user.globalName || interaction.user.username // 디스코드 닉네임으로 변경
     ]);
-    
+
     console.log('📋 최종 접수 정보:', userStates.get(userId));
   }
-
-
 });
 
 client.login(process.env.DISCORD_TOKEN);
+
