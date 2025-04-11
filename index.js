@@ -1,3 +1,4 @@
+// 이미 존재하는 경우 제거하지 않고, 중복되지 않도록 정리
 const fs = require('fs');
 
 if (process.env.GOOGLE_CREDENTIALS) {
