@@ -1,3 +1,9 @@
+const fs = require('fs');
+
+if (process.env.GOOGLE_CREDENTIALS) {
+  fs.writeFileSync('credentials.json', process.env.GOOGLE_CREDENTIALS);
+}
+
 // 📦 필요한 모듈 불러오기
 const {
   Client,
