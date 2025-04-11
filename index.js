@@ -1,5 +1,5 @@
 // 이미 존재하는 경우 제거하지 않고, 중복되지 않도록 정리
-const fs = require('fs');
+const fs = require('fs'); // ✅ 선언은 한 번만!
 
 if (process.env.GOOGLE_CREDENTIALS) {
   fs.writeFileSync('credentials.json', process.env.GOOGLE_CREDENTIALS);
