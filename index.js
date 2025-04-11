@@ -154,7 +154,6 @@ client.once('ready', () => {
 
 // 📤 Google Sheets 연동 준비
 const { google } = require('googleapis');
-const fs = require('fs');
 
 async function appendToSheet(data) {
   try {
