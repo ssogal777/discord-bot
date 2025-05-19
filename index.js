@@ -399,7 +399,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
     const branch3Menu = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId('select-branch3')
-        .setPlaceholder(q[6]) // 🪖 3군 병과를 선택해주세요
+        .setPlaceholder(q[9]) // 🪖 3군 병과를 선택해주세요
         .addOptions([
           { label: 'Army', value: 'army' },
           { label: 'Navy', value: 'navy' },
@@ -409,7 +409,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
     );
 
     await interaction.reply({
-      content: q[6],
+      content: q[9],
       components: [branch3Menu],
       ephemeral: true
     });
@@ -453,11 +453,11 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
     if (branch3 !== 'none') {
       const modal = new ModalBuilder()
         .setCustomId('form-cp-3rd')
-        .setTitle(q[8]);
+        .setTitle(q[9]);
 
       const input = new TextInputBuilder()
         .setCustomId('cp-3rd')
-        .setLabel(q[8])
+        .setLabel(q[9])
         .setStyle(TextInputStyle.Short)
         .setRequired(true);
 
@@ -500,7 +500,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
     );
 
     await interaction.reply({
-      content: q[9],
+      content: q[10],
       components: [groupMenu],
       ephemeral: true
     });
@@ -519,7 +519,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
       const leaderMenu = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
           .setCustomId('select-leader')
-          .setPlaceholder(q[10])
+          .setPlaceholder(q[11])
           .addOptions([
             { label: choices.self, value: 'self' },
             { label: choices.manual, value: 'manual' }
