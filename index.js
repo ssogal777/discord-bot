@@ -333,11 +333,11 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-job') {
 
     const modal = new ModalBuilder()
       .setCustomId('form-main-cp')
-      .setTitle(q[6]);
+      .setTitle(q[7]);
 
     const input = new TextInputBuilder()
       .setCustomId('main-cp')
-      .setLabel(q[6])
+      .setLabel(q[7])
       .setStyle(TextInputStyle.Short)
       .setRequired(true);
 
@@ -372,47 +372,49 @@ if (interaction.isModalSubmit() && interaction.customId === 'form-main-cp') {
   });
 }
 
-  if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2') {
-    const state = userStates.get(userId);
-    const q = QUESTIONS[state.language];
-    const branch2 = interaction.values[0];
+  // 2군 병과 선택 후 → CP 입력 또는 3군 병과 선택으로 분기
+if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2') {
+  const state = userStates.get(userId);
+  const q = QUESTIONS[state.language];
+  const branch2 = interaction.values[0];
 
-    userStates.set(userId, { ...state, branch2 });
+  userStates.set(userId, { ...state, branch2 });
 
-    if (branch2 !== 'none') {
-      const modal = new ModalBuilder()
-        .setCustomId('form-cp-2nd')
-        .setTitle(q[7]);
+  if (branch2 !== 'none') {
+    // 2군 CP 입력 모달 표시
+    const modal = new ModalBuilder()
+      .setCustomId('form-cp-2nd')
+      .setTitle(q[8]); // ⚙️ 2군 부대 CP를 숫자로 입력해주세요
 
-      const input = new TextInputBuilder()
-        .setCustomId('cp-2nd')
-        .setLabel(q[7])
-        .setStyle(TextInputStyle.Short)
-        .setRequired(true);
+    const input = new TextInputBuilder()
+      .setCustomId('cp-2nd')
+      .setLabel(q[8])
+      .setStyle(TextInputStyle.Short)
+      .setRequired(true);
 
-      modal.addComponents(new ActionRowBuilder().addComponents(input));
-      await interaction.showModal(modal);
-    } else {
-      // 바로 3군 병과 선택으로 넘어감
-      const branch3Menu = new ActionRowBuilder().addComponents(
-        new StringSelectMenuBuilder()
-          .setCustomId('select-branch3')
-          .setPlaceholder(q[5])
-          .addOptions([
-            { label: 'Army', value: 'army' },
-            { label: 'Navy', value: 'navy' },
-            { label: 'Airforce', value: 'airforce' },
-            { label: 'None', value: 'none' }
-          ])
-      );
+    modal.addComponents(new ActionRowBuilder().addComponents(input));
+    await interaction.showModal(modal);
+  } else {
+    // branch2가 None이면 바로 3군 병과 선택으로
+    const branch3Menu = new ActionRowBuilder().addComponents(
+      new StringSelectMenuBuilder()
+        .setCustomId('select-branch3')
+        .setPlaceholder(q[6]) // 🪖 3군 병과를 선택해주세요
+        .addOptions([
+          { label: 'Army', value: 'army' },
+          { label: 'Navy', value: 'navy' },
+          { label: 'Airforce', value: 'airforce' },
+          { label: 'None', value: 'none' }
+        ])
+    );
 
-      await interaction.reply({
-        content: q[5],
-        components: [branch3Menu],
-        ephemeral: true
-      });
-    }
+    await interaction.reply({
+      content: q[6],
+      components: [branch3Menu],
+      ephemeral: true
+    });
   }
+}
 
   if (interaction.isModalSubmit() && interaction.customId === 'form-cp-2nd') {
     const state = userStates.get(userId);
