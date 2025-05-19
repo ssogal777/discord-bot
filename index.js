@@ -399,7 +399,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
     const branch3Menu = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId('select-branch3')
-        .setPlaceholder(q[7]) // 🪖 3군 병과를 선택해주세요
+        .setPlaceholder(q[6]) // 🪖 3군 병과를 선택해주세요
         .addOptions([
           { label: 'Army', value: 'army' },
           { label: 'Navy', value: 'navy' },
@@ -409,7 +409,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
     );
 
     await interaction.reply({
-      content: q[7],
+      content: q[6],
       components: [branch3Menu],
       ephemeral: true
     });
