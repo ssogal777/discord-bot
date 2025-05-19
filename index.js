@@ -468,7 +468,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
       const groupMenu = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
           .setCustomId('select-group')
-          .setPlaceholder(q[9])
+          .setPlaceholder(q[10])
           .addOptions([
             { label: 'Yes', value: 'yes' },
             { label: 'No', value: 'no' }
@@ -476,7 +476,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
       );
 
       await interaction.reply({
-        content: q[9],
+        content: q[10],
         components: [groupMenu],
         ephemeral: true
       });
@@ -500,7 +500,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
     );
 
     await interaction.reply({
-      content: q[10],
+      content: q[11],
       components: [groupMenu],
       ephemeral: true
     });
@@ -519,7 +519,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
       const leaderMenu = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
           .setCustomId('select-leader')
-          .setPlaceholder(q[11])
+          .setPlaceholder(q[12])
           .addOptions([
             { label: choices.self, value: 'self' },
             { label: choices.manual, value: 'manual' }
@@ -530,7 +530,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
       const agreeMenu = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
           .setCustomId('select-agree')
-          .setPlaceholder(q[11])
+          .setPlaceholder(q[13])
           .addOptions([
             { label: 'Yes', value: 'yes' },
             { label: 'No', value: 'no' }
@@ -564,7 +564,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
       const agreeMenu = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
           .setCustomId('select-agree')
-          .setPlaceholder(q[11])
+          .setPlaceholder(q[12])
           .addOptions([
             { label: 'Yes', value: 'yes' },
             { label: 'No', value: 'no' }
@@ -583,7 +583,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
     const agreeMenu = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId('select-agree')
-        .setPlaceholder(q[11])
+        .setPlaceholder(q[13])
         .addOptions([
           { label: 'Yes', value: 'yes' },
           { label: 'No', value: 'no' }
