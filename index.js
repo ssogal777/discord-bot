@@ -283,7 +283,7 @@ if (interaction.isChatInputCommand() && interaction.commandName === 'transfer') 
     const branch1Menu = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId('select-branch1')
-        .setPlaceholder(q[3])
+        .setPlaceholder(q[4)
         .addOptions(['army', 'navy', 'airforce'].map(b => ({ label: b, value: b })))
     );
 
