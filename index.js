@@ -24,7 +24,8 @@ const userStates = new Map();
 // 🌐 다국어 질문 목록
 const QUESTIONS = {
   ko: [
-    '🎮 인게임 ID를 입력해주세요. 정확하게 입력해주세요.',
+    '🎮 인게임 이름을을 입력해주세요. 정확하게 입력해주세요.',
+    '🌍 현재 서버를 입력해주세요. (예: 3384)', // 추가
     '🏠 기지 CP를 숫자로 입력해주세요',
     '💼 직업을 선택해주세요 (CE/MM)',
     '🪖 1군 병과를 선택해주세요',
@@ -38,7 +39,8 @@ const QUESTIONS = {
     '📌 서버 운영 상황에 따라 직업 변경이 필요할 경우, 수용하시겠습니까?'
   ],
   en: [
-    '🎮 Please enter your In-Game ID accurately.',
+    '🎮 Please enter your In-Game name accurately.',
+    '🌍 Enter your current server (e.g., 3384)', // 추가
     '🏠 Enter base CP as a number',
     '💼 Select your job (CE/MM)',
     '🪖 Select 1st branch',
@@ -52,7 +54,8 @@ const QUESTIONS = {
     '📌 If your job needs to be changed based on server needs, are you willing to accept it?'
   ],
   ja: [
-    '🎮 ゲーム内IDを正確に入力してください。',
+    '🎮 ゲーム内Nameを正確に入力してください。',
+    '🌍 現在のサーバー番号を入力してください（例：3384）', // 追加
     '🏠 基地CPを数字で入力してください',
     '💼 職業を選択してください（CE/MM）',
     '🪖 第1兵科を選択してください',
@@ -66,7 +69,8 @@ const QUESTIONS = {
     '📌 サーバーの都合で職業変更が必要な場合、同意しますか？'
   ],
   zh: [
-    '🎮 请准确输入您的游戏内ID。',
+    '🎮 请准确输入您的游戏内Name。',
+    '🌍 请输入您当前所在的服务器编号（例如：3384）', // 添加
     '🏠 请输入基地CP（数字）',
     '💼 请选择您的职业（CE/MM）',
     '🪖 请选择第一兵种',
@@ -80,7 +84,8 @@ const QUESTIONS = {
     '📌 若服务器运营需要变更职业，您是否接受？'
   ],
   th: [
-    '🎮 กรุณาใส่ ID ในเกมให้ถูกต้อง',
+    '🎮 กรุณาใส่ Name ในเกมให้ถูกต้อง',
+    '🌍 กรุณาใส่เซิร์ฟเวอร์ปัจจุบันของคุณ (เช่น 3384)', // เพิ่ม
     '🏠 ใส่ CP ฐาน (ตัวเลข)',
     '💼 เลือกอาชีพ (CE/MM)',
     '🪖 เลือกเหล่าทัพที่ 1',
@@ -94,7 +99,8 @@ const QUESTIONS = {
     '📌 หากจำเป็นต้องเปลี่ยนอาชีพตามสถานการณ์เซิร์ฟเวอร์ คุณยอมรับหรือไม่?'
   ],
   vi: [
-    '🎮 Vui lòng nhập chính xác ID trong game.',
+    '🎮 Vui lòng nhập chính xác name trong game.',
+    '🌍 Nhập máy chủ hiện tại của bạn (ví dụ: 3384)', // Thêm
     '🏠 Nhập CP căn cứ (bằng số)',
     '💼 Chọn nghề nghiệp (CE/MM)',
     '🪖 Chọn binh chủng thứ nhất',
@@ -108,7 +114,8 @@ const QUESTIONS = {
     '📌 Nếu cần thay đổi nghề theo yêu cầu của máy chủ, bạn có đồng ý không?'
   ],
   ru: [
-    '🎮 Пожалуйста, введите точный игровой ID.',
+    '🎮 Пожалуйста, введите точный игровой Name.',
+    '🌍 Укажите текущий сервер (например: 3384)', // Добавить
     '🏠 Введите базовый CP числом',
     '💼 Выберите свою роль (CE/MM)',
     '🪖 Выберите первую ветвь',
@@ -122,7 +129,8 @@ const QUESTIONS = {
     '📌 Если потребуется смена профессии по требованию сервера, вы согласны?'
   ],
   es: [
-    '🎮 Por favor, ingresa tu ID del juego con precisión.',
+    '🎮 Por favor, ingresa tu name del juego con precisión.',
+    '🌍 Ingresa tu servidor actual (por ejemplo: 3384)', // Agregar
     '🏠 Ingresa el CP de la base (en número)',
     '💼 Selecciona tu rol (CE/MM)',
     '🪖 Selecciona la primera rama',
@@ -238,15 +246,22 @@ if (interaction.isChatInputCommand() && interaction.commandName === 'transfer') 
       .setLabel(q[0])
       .setStyle(TextInputStyle.Short)
       .setRequired(true);
+      
+    const inputServer = new TextInputBuilder()  // 추가된 부분
+      .setCustomId('current-server')
+      .setLabel(q[1])
+      .setStyle(TextInputStyle.Short)
+      .setRequired(true);
 
     const inputBaseCP = new TextInputBuilder()
       .setCustomId('base-cp')
-      .setLabel(q[1])
+      .setLabel(q[2])
       .setStyle(TextInputStyle.Short)
       .setRequired(true);
 
     modal.addComponents(
       new ActionRowBuilder().addComponents(inputID),
+      new ActionRowBuilder().addComponents(inputServer), //추가
       new ActionRowBuilder().addComponents(inputBaseCP)
     );
 
@@ -261,6 +276,7 @@ if (interaction.isChatInputCommand() && interaction.commandName === 'transfer') 
     userStates.set(userId, {
       ...state,
       ingameID: interaction.fields.getTextInputValue('ingame-id'),
+      currentServer: interaction.fields.getTextInputValue('current-server'),  // 추가
       baseCP: interaction.fields.getTextInputValue('base-cp')
     });
 
@@ -604,6 +620,7 @@ if (interaction.isChatInputCommand() && interaction.commandName === 'transfer') 
     await appendToSheet([
       state.language,
       state.ingameID,
+      state.currentServer,      // 추가
       state.baseCP,
       state.job,
       state.branch1,
