@@ -259,17 +259,10 @@ if (interaction.isChatInputCommand() && interaction.commandName === 'transfer') 
       .setStyle(TextInputStyle.Short)
       .setRequired(true);
 
-      const inputjob = new TextInputBuilder()
-      .setCustomId('job')
-      .setLabel(q[3])
-      .setStyle(TextInputStyle.Short)
-      .setRequired(true);
-
     modal.addComponents(
       new ActionRowBuilder().addComponents(inputID),
       new ActionRowBuilder().addComponents(inputServer), //추가
       new ActionRowBuilder().addComponents(inputBaseCP),
-      new ActionRowBuilder().addComponents(inputjob)
     );
 
     await interaction.showModal(modal);
