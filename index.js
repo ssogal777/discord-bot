@@ -500,7 +500,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
     );
 
     await interaction.reply({
-      content: q[11],
+      content: q[10],
       components: [groupMenu],
       ephemeral: true
     });
@@ -519,7 +519,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
       const leaderMenu = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
           .setCustomId('select-leader')
-          .setPlaceholder(q[12])
+          .setPlaceholder(q[11])
           .addOptions([
             { label: choices.self, value: 'self' },
             { label: choices.manual, value: 'manual' }
@@ -530,7 +530,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
       const agreeMenu = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
           .setCustomId('select-agree')
-          .setPlaceholder(q[13])
+          .setPlaceholder(q[12])
           .addOptions([
             { label: 'Yes', value: 'yes' },
             { label: 'No', value: 'no' }
@@ -553,7 +553,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
       const input = new TextInputBuilder()
         .setCustomId('leader-name')
         .setLabel(' ')
-        .setPlaceholder(q[10])
+        .setPlaceholder(q[11])
         .setStyle(TextInputStyle.Short)
         .setRequired(true);
 
@@ -570,7 +570,7 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
             { label: 'No', value: 'no' }
           ])
       );
-      await interaction.reply({ content: q[11], components: [agreeMenu], ephemeral: true });
+      await interaction.reply({ content: q[12], components: [agreeMenu], ephemeral: true });
     }
   }
 
@@ -583,13 +583,13 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
     const agreeMenu = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId('select-agree')
-        .setPlaceholder(q[13])
+        .setPlaceholder(q[12])
         .addOptions([
           { label: 'Yes', value: 'yes' },
           { label: 'No', value: 'no' }
         ])
     );
-    await interaction.reply({ content: q[11], components: [agreeMenu], ephemeral: true });
+    await interaction.reply({ content: q[12], components: [agreeMenu], ephemeral: true });
   }
 
   if (interaction.isStringSelectMenu() && interaction.customId === 'select-agree') {
@@ -603,17 +603,18 @@ if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2
       color: 0x00cc99,
       fields: [
         { name: q[0], value: state.ingameID || 'N/A' },
-        { name: q[1], value: state.baseCP || 'N/A' },
-        { name: q[2], value: state.job || 'N/A' },
-        { name: q[3], value: state.branch1 || 'N/A' },
-        { name: q[6], value: state.mainCP || 'N/A' },
-        { name: q[4], value: state.branch2 || 'None' },
-        { name: q[7], value: state.cp2nd || 'N/A' },
-        { name: q[5], value: state.branch3 || 'None' },
-        { name: q[8], value: state.cp3rd || 'N/A' },
-        { name: q[9], value: state.group || 'No' },
-        { name: q[10], value: state.group === 'yes' ? (state.groupLeader || 'N/A') : 'N/A' },
-        { name: q[11], value: agree || 'N/A' },
+        { name: q[1], value: state.currentServer || 'N/A' },      // 현재 서버
+        { name: q[2], value: state.baseCP || 'N/A' },
+        { name: q[3], value: state.job || 'N/A' },
+        { name: q[4], value: state.branch1 || 'N/A' },
+        { name: q[7], value: state.mainCP || 'N/A' },
+        { name: q[5], value: state.branch2 || 'None' },
+        { name: q[8], value: state.cp2nd || 'N/A' },
+        { name: q[6], value: state.branch3 || 'None' },
+        { name: q[9], value: state.cp3rd || 'N/A' },
+        { name: q[10], value: state.group || 'No' },
+        { name: q[11], value: state.group === 'yes' ? (state.groupLeader || 'N/A') : 'N/A' },
+        { name: q[12], value: agree || 'N/A' },
         { name: '🕒 제출 시간', value: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }) },
         { name: '🆔 디스코드 닉네임', value: interaction.user.globalName || interaction.user.username }
       ]
