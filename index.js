@@ -268,32 +268,60 @@ if (interaction.isChatInputCommand() && interaction.commandName === 'transfer') 
     await interaction.showModal(modal);
   }
 
-  // 모달 1단계 처리 (인게임 ID + 기지 CP) 후 1군 병과 선택
+  // 모달 1단계 처리 (인게임 ID + 기지 CP) 후 직업선택
   if (interaction.isModalSubmit() && interaction.customId === 'form-step1') {
     const state = userStates.get(userId);
     const q = QUESTIONS[state.language];
-
+  
     userStates.set(userId, {
       ...state,
       ingameID: interaction.fields.getTextInputValue('ingame-id'),
-      currentServer: interaction.fields.getTextInputValue('current-server'),  // 추가
+      currentServer: interaction.fields.getTextInputValue('current-server'),
       baseCP: interaction.fields.getTextInputValue('base-cp')
     });
-
-    const branch1Menu = new ActionRowBuilder().addComponents(
+  
+    const jobMenu = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
-        .setCustomId('select-branch1')
-        .setPlaceholder(q[4])
-        .addOptions(['army', 'navy', 'airforce'].map(b => ({ label: b, value: b })))
+        .setCustomId('select-job')
+        .setPlaceholder(q[3])
+        .addOptions([
+          { label: 'CE', value: 'ce' },
+          { label: 'MM', value: 'mm' }
+        ])
     );
-
+  
     await interaction.reply({
-      content: q[4],
-      components: [branch1Menu],
-      ephemeral: true,
+      content: q[3],
+      components: [jobMenu],
+      ephemeral: true
     });
   }
 
+  // 직업 선택 완료 후 → 1군 병과 선택
+if (interaction.isStringSelectMenu() && interaction.customId === 'select-job') {
+  const state = userStates.get(userId);
+  const q = QUESTIONS[state.language];
+  const job = interaction.values[0];
+
+  userStates.set(userId, { ...state, job });
+
+  const branch1Menu = new ActionRowBuilder().addComponents(
+    new StringSelectMenuBuilder()
+      .setCustomId('select-branch1')
+      .setPlaceholder(q[4])
+      .addOptions([
+        { label: 'Army', value: 'army' },
+        { label: 'Navy', value: 'navy' },
+        { label: 'Airforce', value: 'airforce' }
+      ])
+  );
+
+  await interaction.reply({
+    content: q[4],
+    components: [branch1Menu],
+    ephemeral: true
+  });
+}
 
   // 병과 선택 후 주력부대 CP 입력 모달
   if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch1') {
@@ -317,54 +345,32 @@ if (interaction.isChatInputCommand() && interaction.commandName === 'transfer') 
     await interaction.showModal(modal);
   }
 
-  // 주력부대 CP 입력 완료 후 직업 선택
-  if (interaction.isModalSubmit() && interaction.customId === 'form-main-cp') {
-    const state = userStates.get(userId);
-    const q = QUESTIONS[state.language];
-    const mainCP = interaction.fields.getTextInputValue('main-cp');
+// 주력부대 CP 입력 완료 후 → 2군 병과 선택
+if (interaction.isModalSubmit() && interaction.customId === 'form-main-cp') {
+  const state = userStates.get(userId);
+  const q = QUESTIONS[state.language];
+  const mainCP = interaction.fields.getTextInputValue('main-cp');
 
-    userStates.set(userId, { ...state, mainCP });
+  userStates.set(userId, { ...state, mainCP });
 
-    const jobMenu = new ActionRowBuilder().addComponents(
-      new StringSelectMenuBuilder()
-        .setCustomId('select-job')
-        .setPlaceholder(q[3])
-        .addOptions([ { label: 'CE', value: 'ce' }, { label: 'MM', value: 'mm' } ])
-    );
+  const branch2Menu = new ActionRowBuilder().addComponents(
+    new StringSelectMenuBuilder()
+      .setCustomId('select-branch2')
+      .setPlaceholder(q[5]) // '🪖 2군 병과를 선택해주세요 (없을 경우 None)'
+      .addOptions([
+        { label: 'Army', value: 'army' },
+        { label: 'Navy', value: 'navy' },
+        { label: 'Airforce', value: 'airforce' },
+        { label: 'None', value: 'none' }
+      ])
+  );
 
-    await interaction.reply({
-      content: q[3],
-      components: [jobMenu],
-      ephemeral: true,
-    });
-  }
-
-  // 2군 병과 선택 → 조건부 CP 입력
-  if (interaction.isStringSelectMenu() && interaction.customId === 'select-job') {
-    const state = userStates.get(userId);
-    const q = QUESTIONS[state.language];
-    const job = interaction.values[0];
-
-    userStates.set(userId, { ...state, job });
-
-    const branch2Menu = new ActionRowBuilder().addComponents(
-      new StringSelectMenuBuilder()
-        .setCustomId('select-branch2')
-        .setPlaceholder(q[4])
-        .addOptions([
-          { label: 'Army', value: 'army' },
-          { label: 'Navy', value: 'navy' },
-          { label: 'Airforce', value: 'airforce' },
-          { label: 'None', value: 'none' }
-        ])
-    );
-
-    await interaction.reply({
-      content: q[4],
-      components: [branch2Menu],
-      ephemeral: true
-    });
-  }
+  await interaction.reply({
+    content: q[5],
+    components: [branch2Menu],
+    ephemeral: true
+  });
+}
 
   if (interaction.isStringSelectMenu() && interaction.customId === 'select-branch2') {
     const state = userStates.get(userId);
