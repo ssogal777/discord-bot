@@ -259,10 +259,17 @@ if (interaction.isChatInputCommand() && interaction.commandName === 'transfer') 
       .setStyle(TextInputStyle.Short)
       .setRequired(true);
 
+      const inputjob = new TextInputBuilder()
+      .setCustomId('job')
+      .setLabel(q[3])
+      .setStyle(TextInputStyle.Short)
+      .setRequired(true);
+
     modal.addComponents(
       new ActionRowBuilder().addComponents(inputID),
       new ActionRowBuilder().addComponents(inputServer), //추가
-      new ActionRowBuilder().addComponents(inputBaseCP)
+      new ActionRowBuilder().addComponents(inputBaseCP),
+      new ActionRowBuilder().addComponents(inputjob)
     );
 
     await interaction.showModal(modal);
@@ -278,17 +285,18 @@ if (interaction.isChatInputCommand() && interaction.commandName === 'transfer') 
       ingameID: interaction.fields.getTextInputValue('ingame-id'),
       currentServer: interaction.fields.getTextInputValue('current-server'),  // 추가
       baseCP: interaction.fields.getTextInputValue('base-cp')
+      job: interaction.fields.getTextInputValue('job')
     });
 
     const branch1Menu = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId('select-branch1')
-        .setPlaceholder(q[4)
+        .setPlaceholder(q[4])
         .addOptions(['army', 'navy', 'airforce'].map(b => ({ label: b, value: b })))
     );
 
     await interaction.reply({
-      content: q[3],
+      content: q[4],
       components: [branch1Menu],
       ephemeral: true,
     });
@@ -328,12 +336,12 @@ if (interaction.isChatInputCommand() && interaction.commandName === 'transfer') 
     const jobMenu = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId('select-job')
-        .setPlaceholder(q[2])
+        .setPlaceholder(q[3])
         .addOptions([ { label: 'CE', value: 'ce' }, { label: 'MM', value: 'mm' } ])
     );
 
     await interaction.reply({
-      content: q[2],
+      content: q[3],
       components: [jobMenu],
       ephemeral: true,
     });
