@@ -278,7 +278,6 @@ if (interaction.isChatInputCommand() && interaction.commandName === 'transfer') 
       ingameID: interaction.fields.getTextInputValue('ingame-id'),
       currentServer: interaction.fields.getTextInputValue('current-server'),  // 추가
       baseCP: interaction.fields.getTextInputValue('base-cp')
-      job: interaction.fields.getTextInputValue('job')
     });
 
     const branch1Menu = new ActionRowBuilder().addComponents(
